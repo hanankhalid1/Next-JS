@@ -1,5 +1,5 @@
 "use client";
-import { contactInfoType,  onChnageEventType } from "@/app/types/commonTypes";
+import { ErrorTypes, contactInfoType,  onChnageEventType , } from "@/app/types/commonTypes";
 import { FormEvent, useState } from "react";
 import DisplayForm from "../displayForm/displayForm";
 import Button from "../button/button";
@@ -28,7 +28,7 @@ const contactSchema  = yup.object().shape({
   last_name : yup.string().required(),
   father_name : yup.string().required(),
   mother_name : yup.string().required(),
- age : yup.number().positive().required(),
+ age : yup.number().positive().required().min(1).max(3),
  school : yup.string().required(),
  college : yup.string().required(),
  university : yup.string().required(),
@@ -73,10 +73,12 @@ const [errors , setError] = useState<contactInfoType[]>([])
         phone: 0,
         message: "",
       });
-    } catch (err: any) {
+    } catch (err : any) {
       console.error(err);
       setError(err.errors);
-      alert(err.errors);
+      // console.log( "errors :" , err.errors);
+      let errorElem = document.getElementById("errorID");
+      errorElem.innerHTML = "Error :" + err.errors + "!";
     }
   };
   
@@ -262,6 +264,9 @@ const [errors , setError] = useState<contactInfoType[]>([])
             className="w-full px-3 py-2 border rounded-md"
             required
           ></textarea>
+        </div>
+        <div className="text-center items-center">
+          <h1 id="errorID" className="text-red-700 font-serif font-bold"></h1>
         </div>
         <div>
           <Button  title = "submit" onClicked = {onClickHandler} />

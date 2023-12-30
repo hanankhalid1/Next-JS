@@ -20,4 +20,7 @@ export type onChnageEventType = {
     target : {name : string , value : string | number}
 
 }
+export type ErrorTypes = {
+    error : string
+}
 
